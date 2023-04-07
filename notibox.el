@@ -62,7 +62,7 @@
 ;; (notibox--prepare-buffer "test" "this better work gadangit")
 
 (defvar notibox-current-posframes nil)
-(defun notibox--show ()
+(defun notibox--show (&optional timeout)
   "Show the notibox currently prepared, with optional TIMEOUT."
   (add-to-list 'notibox-current-posframes
 	       (posframe-show (get-buffer-create "*notibox*")
@@ -72,14 +72,16 @@
 			      :min-width notibox-width
 			      :min-height notibox-height
 			      :border-width 2
-			      :border-color notibox-border-color))
-  )
+			      :border-color notibox-border-color
+			      :timeout timeout))
+  nil)
 
 (defun notibox-alert (info)
   (let* ((message (plist-get info :message))
-	 (title   (plist-get info :title)))
+	 (title   (plist-get info :title))
+	 (timeout (plist-get info :persistent)))
     (notibox--prepare-buffer title message)
-    (notibox--show)))
+    (notibox--show (unless timeout alert-fade-time))))
 
 (defun notibox--hide (frame)
   (posframe-hide "*notibox*"))
