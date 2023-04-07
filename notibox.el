@@ -6,7 +6,7 @@
 ;; Keywords:frames,convenience,help
 ;; Package-Requires: ((posframe))
 
-;; This file is NOT part of GNU Emacs
+;; This file is NOT part of GNU Emacs.
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 
 ;;; Commentary:
 
-;; 
+;; This package provides 
 
 ;;; Code:
 
@@ -63,6 +63,7 @@
 
 (defvar notibox-current-posframes nil)
 (defun notibox--show ()
+  "Show the notibox currently prepared, with optional TIMEOUT."
   (add-to-list 'notibox-current-posframes
 	       (posframe-show (get-buffer-create "*notibox*")
 			      :position (notibox--get-position)
