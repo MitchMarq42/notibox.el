@@ -31,7 +31,7 @@
 
 (defvar notibox-width 40) ; characters
 (defvar notibox-height 4) ; characters
-(defvar notibox-border-color "green")
+(defvar notibox-border-color "#808080")
 (defvar notibox-corner 'bottomright)
 (defvar notibox-padding 30)
 (defun notibox--get-position ()
