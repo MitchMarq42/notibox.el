@@ -91,8 +91,21 @@
   (notibox--hide (car notibox-current-posframes))
   (pop notibox-current-posframes))
 
+(defun notibox--tail-echoarea ()
+  (if (current-message)
+      (notibox-alert `(
+		       :title ,(format "%s" (current-buffer))
+		       :message ,(current-message)))
+    (notibox-delete 'current)))
+
+(defun notibox/setup-timer ()
+  (interactive)
+  (run-with-timer 1 0.5 #'notibox--tail-echoarea))
 
 ;; (notibox--hide 'anything)
+(defun notibox-test-alert ()
+  (interactive)
+  (notibox-alert '(:title "five" :message "six")))
 
 (provide 'notibox)
 ;;; notibox.el ends here
