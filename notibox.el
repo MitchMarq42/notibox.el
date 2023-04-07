@@ -4,7 +4,7 @@
 
 ;; Author: mitch <mitch@mitchmarq42.xyz>
 ;; Keywords:frames,convenience,help
-;; Package-Requires: ((alert) (posframe))
+;; Package-Requires: ((posframe))
 
 ;; This file is NOT part of GNU Emacs
 
@@ -28,7 +28,6 @@
 ;;; Code:
 
 (require 'posframe)
-(require 'alert)
 
 (defvar notibox-width 40) ; characters
 (defvar notibox-height 4) ; characters
@@ -84,18 +83,12 @@
 (defun notibox--hide (frame)
   (posframe-hide "*notibox*"))
 
-(defun notibox-alert-clear (info)
+(defun notibox-delete (frame)
+  ;; TODO: if parent, hide all. Otherwise just the one.
   (notibox--hide (car notibox-current-posframes))
   (pop notibox-current-posframes))
 
-(alert-define-style 'notibox
-		    :title "NotiBox"
-		    :notifier #'notibox-alert
-		    :remover #'notibox-alert-clear)
-(setq alert-default-style 'notibox)
 
-;; (alert "messaig" :title "tital")
-;; (notibox-alert '(:title "five" :message "six"))
 ;; (notibox--hide 'anything)
 
 (provide 'notibox)
