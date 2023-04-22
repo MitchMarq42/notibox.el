@@ -57,7 +57,8 @@
   "Populate the `*notibox*' buffer with TITLE and BODY properly formatted."
   (with-current-buffer (get-buffer-create "*notibox*")
     (erase-buffer)
-    (insert (format "%s\n%s\n%s" title
+    (insert (format "%s\n%s\n%s" ;; (buttonize title #'view-echo-area-messages)
+		    title
 		    (propertize (make-string notibox-width ?─)
 				'face `((:foreground ,notibox-border-color)))
 		    body))))
