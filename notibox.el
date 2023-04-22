@@ -101,7 +101,8 @@
       (notibox-alert `(
 		       :title ,(format "%s" (current-buffer))
 		       :message ,(current-message)))
-    (notibox-delete 'current)))
+    (if notibox-current-posframes
+	(notibox-delete 'current))))
 
 (defun notibox/setup-timer ()
   (interactive)
