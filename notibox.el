@@ -69,6 +69,8 @@
   (add-to-list 'notibox-current-posframes
 	       (posframe-show (get-buffer-create "*notibox*")
 			      :position (notibox--get-position)
+			      :left-fringe 0
+			      :right-fringe 0
 			      :max-width notibox-width
 			      :max-height notibox-height
 			      :min-width notibox-width
