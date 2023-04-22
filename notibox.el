@@ -45,12 +45,12 @@
     (pcase notibox-corner
       ('topleft (cons notibox-padding notibox-padding))
       ('topright (cons (- parent-width (+ child-width notibox-padding))
-		 notibox-padding))
+		       notibox-padding))
       ('bottomleft (cons notibox-padding
-			(- parent-height (+ child-height notibox-padding))))
+			 (- parent-height (+ child-height notibox-padding))))
       ('bottomright (cons
-		    (- parent-width (+ child-width notibox-padding))
-		    (- parent-height (+ child-height notibox-padding)))))))
+		     (- parent-width (+ child-width notibox-padding))
+		     (- parent-height (+ child-height notibox-padding)))))))
 ;; (notibox--get-position)
 
 (defun notibox--prepare-buffer (title body)
