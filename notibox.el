@@ -23,7 +23,9 @@
 
 ;;; Commentary:
 
-;; This package provides 
+;; This package shows a temporary child frame which mirrors the contents of the
+;; echo area.  It was designed to be used with configurations that hide the echo
+;; area by splitting it into a `minibuffer-frame'.
 
 ;;; Code:
 
