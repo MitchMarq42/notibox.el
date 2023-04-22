@@ -36,6 +36,8 @@
 (defvar notibox-border-color "#808080")
 (defvar notibox-corner 'bottomright)
 (defvar notibox-padding 30)
+(defvar alert-fade-time 5); seconds, also provided by `alert' package
+(defvar notibox--refresh-delay 0.1) ; seconds. Probably don't change this one.
 (defun notibox--get-position ()
   "Return the starting coordinate at which to place the notibox, as cons."
   (let* ((parent-width (frame-pixel-width))
@@ -106,7 +108,7 @@
 
 (defun notibox/setup-timer ()
   (interactive)
-  (run-with-timer 1 0.5 #'notibox--tail-echoarea))
+  (run-with-timer notibox--refresh-delay notibox--refresh-delay #'notibox--tail-echoarea))
 
 ;; (notibox--hide 'anything)
 (defun notibox-test-alert ()
