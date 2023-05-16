@@ -4,7 +4,7 @@
 
 ;; Author: mitch <mitch@mitchmarq42.xyz>
 ;; Keywords:frames,convenience,help
-;; Package-Requires: ((posframe))
+;; Package-Requires: ((posframe) (alert))
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -30,6 +30,7 @@
 ;;; Code:
 
 (require 'posframe)
+(require 'alert)
 
 (defvar notibox-width 40) ; characters
 (defvar notibox-height 4) ; characters
