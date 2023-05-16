@@ -34,7 +34,13 @@
 (defvar notibox-width 40) ; characters
 (defvar notibox-height 4) ; characters
 (defvar notibox-border-color "#808080")
-(defvar notibox-corner 'bottomright)
+(defcustom notibox-corner 'bottomright
+  "Corner in which to show the NotiBox."
+  :type '(choice
+	  (const :tag "Top Left" 'topleft)
+	  (const :tag "Bottom Left" 'bottomleft)
+	  (const :tag "Top Right" 'topright)
+	  (const :tag "Bottom Right" 'bottomright)))
 (defvar notibox-padding 30)
 (defvar alert-fade-time 5); seconds, also provided by `alert' package
 (defvar notibox--refresh-delay 0.1) ; seconds. Probably don't change this one.
