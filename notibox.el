@@ -31,6 +31,7 @@
 
 (require 'posframe)
 (require 'alert)
+(require 'shr) ;for `shr-string-pixel-width'
 
 (defvar notibox-width 40) ; characters
 (defvar notibox-height 4) ; characters
@@ -48,7 +49,7 @@
 (defun notibox--get-position ()
   "Return the starting coordinate at which to place the notibox, as cons."
   (let* ((parent-width (frame-pixel-width))
-	 (child-width (* notibox-width (string-pixel-width " ")))
+	 (child-width (* notibox-width (shr-string-pixel-width " ")))
 	 (parent-height (frame-pixel-height))
 	 (child-height (* notibox-height (line-pixel-height))))
     (pcase notibox-corner
