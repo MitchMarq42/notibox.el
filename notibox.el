@@ -36,6 +36,8 @@
 (defvar notibox-width 40) ; characters
 (defvar notibox-height 4) ; characters
 (defvar notibox-border-color "#808080")
+(defgroup notibox nil
+  "The notification box.")
 (defcustom notibox-corner 'bottomright
   "Corner in which to show the NotiBox."
   :type '(choice
