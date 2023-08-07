@@ -94,6 +94,7 @@
   nil)
 
 (defun notibox-alert (info)
+  "Show a notibox corresponding with INFO.  Can* be used as a backend for `alert'."
   (let* ((message (plist-get info :message))
 	 (title   (plist-get info :title))
 	 (timeout (plist-get info :persistent)))
@@ -101,6 +102,7 @@
     (notibox--show (unless timeout alert-fade-time))))
 
 (defun notibox--hide (frame)
+  "Stop showing FRAME."
   (posframe-hide "*notibox*"))
 
 (defun notibox-delete (frame)
@@ -109,6 +111,7 @@
   (pop notibox-current-posframes))
 
 (defun notibox--tail-echoarea ()
+  "Show `current-message' in the notibox.  If that does not exist, probably hide it."
   (if (current-message)
       (notibox-alert `(
 		       :title ,(format "%s" (current-buffer))
@@ -117,11 +120,13 @@
 	(notibox-delete 'current))))
 
 (defun notibox/setup-timer ()
+  "Start running notibox."
   (interactive)
   (run-with-timer notibox--refresh-delay notibox--refresh-delay #'notibox--tail-echoarea))
 
 ;; (notibox--hide 'anything)
 (defun notibox-test-alert ()
+  "Show a sample notibox to prove we can."
   (interactive)
   (notibox-alert '(:title "five" :message "six")))
 
