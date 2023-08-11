@@ -103,12 +103,17 @@
 
 (defun notibox--hide (frame)
   "Stop showing FRAME."
-  (posframe-hide "*notibox*"))
+  (posframe-hide (window-buffer (frame-selected-window frame))))
 
 (defun notibox-delete (frame)
-  ;; TODO: if parent, hide all. Otherwise just the one.
-  (notibox--hide (car notibox-current-posframes))
+  "Delete the notibox FRAME.
+
+If FRAME is the root Emacs window, or some other symbol, hide all notiboxes."
+  (if (and (framep frame) (not (frame-parent frame)))
+      (delete-frame frame)
+    (notibox--hide (car notibox-current-posframes)))
   (pop notibox-current-posframes))
+;; (frame-parent (selected-frame)) ;=> nil
 
 (defun notibox--tail-echoarea ()
   "Show `current-message' in the notibox.  If that does not exist, probably hide it."
