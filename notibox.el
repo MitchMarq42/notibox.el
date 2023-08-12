@@ -48,21 +48,32 @@
 (defvar notibox-padding 30)
 (defvar alert-fade-time 5); seconds, also provided by `alert' package
 (defvar notibox--refresh-delay 0.1) ; seconds. Probably don't change this one.
-(defun notibox--get-position ()
-  "Return the starting coordinate at which to place the notibox, as cons."
-  (let* ((parent-width (frame-pixel-width))
+(defun notibox--get-position (&optional stackdepth)
+  "Return the starting coordinate at which to place the next notibox, as cons.
+
+If STACKDEPTH is non-nil and nonzero, return a position that far down."
+  (let* (
+	 (stackdepth (or stackdepth 0))
+	 (parent-width (frame-pixel-width))
 	 (child-width (* notibox-width (shr-string-pixel-width " ")))
 	 (parent-height (frame-pixel-height))
-	 (child-height (* notibox-height (line-pixel-height))))
-    (pcase notibox-corner
-      ('topleft (cons notibox-padding notibox-padding))
-      ('topright (cons (- parent-width (+ child-width notibox-padding))
-		       notibox-padding))
-      ('bottomleft (cons notibox-padding
-			 (- parent-height (+ child-height notibox-padding))))
-      ('bottomright (cons
-		     (- parent-width (+ child-width notibox-padding))
-		     (- parent-height (+ child-height notibox-padding)))))))
+	 (child-height (* notibox-height (line-pixel-height)))
+	 (padded-height (+ child-height notibox-padding))
+	 (x-justify (pcase notibox-corner
+			     ((or 'topleft 'bottomleft) notibox-padding)
+			     ((or 'topright 'bottomright)
+			      (- parent-width (+ child-width notibox-padding)))))
+	 (y-justify (pcase notibox-corner
+		      ((or 'topleft 'topright) notibox-padding)
+		      ((or 'bottomleft 'bottomright)
+		       (- parent-height (+ child-height notibox-padding)))))
+	 (y-direction (pcase notibox-corner
+			((or 'topleft 'topright) #'+)
+			((or 'bottomleft 'bottomright) #'-)))
+	 (y-coord (funcall y-direction y-justify (* stackdepth child-height)))
+	 )
+    (cons x-justify y-coord)
+    ))
 ;; (notibox--get-position)
 
 (defun notibox--prepare-buffer (title body)
