@@ -114,6 +114,19 @@ If STACKDEPTH is non-nil and nonzero, return a position that far down."
     (notibox--show :timeout (unless timeout alert-fade-time)
 		   :depth (or depth (- (length notibox-current-posframes) 1)))))
 
+(defun notibox--resolve-frame (object)
+  "Return the /frame reference/ signified by OBJECT, whatever it may be."
+  (cond
+   ((framep object) object) ;this is the easy one
+   ((windowp object) (window-frame object))
+   ((bufferp object) (window-frame (get-window-buffer object)))
+   ((stringp object)
+    (window-frame (get-buffer-window (get-buffer object))))
+   ((symbolp object)
+    (window-frame (get-buffer-window (get-buffer (format "%s" object)))))
+   ))
+;; (notibox--resolve-frame "*notibox*")
+
 (defun notibox--hide (frame)
   "Stop showing FRAME."
   (posframe-hide (window-buffer (frame-selected-window frame))))
