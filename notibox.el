@@ -144,11 +144,14 @@ If FRAME is the root Emacs window, or some other symbol, hide all notiboxes."
 (defun notibox--tail-echoarea ()
   "Show `current-message' in the notibox.  If that does not exist, probably hide it."
   (if (current-message)
-      (notibox-alert `(
-		       :title ,(format "%s" (current-buffer))
-		       :message ,(current-message)))
+      (let ((notibox-border-color "#0faa0f"))
+	(notibox-alert `(
+			 :title ,(format "%s" (current-buffer))
+				:message ,(current-message)
+				:depth 0)))
     (if notibox-current-posframes
-	(notibox-delete 'current))))
+	(notibox-delete (car notibox-current-posframes))))
+)
 
 (defun notibox/setup-timer ()
   "Start running notibox."
