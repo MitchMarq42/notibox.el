@@ -108,9 +108,11 @@ If STACKDEPTH is non-nil and nonzero, return a position that far down."
   "Show a notibox corresponding with INFO.  Can* be used as a backend for `alert'."
   (let* ((message (plist-get info :message))
 	 (title   (plist-get info :title))
-	 (timeout (plist-get info :persistent)))
+	 (timeout (plist-get info :persistent))
+	 (depth   (plist-get info :depth)))
     (notibox--prepare-buffer title message)
-    (notibox--show (unless timeout alert-fade-time))))
+    (notibox--show :timeout (unless timeout alert-fade-time)
+		   :depth (or depth (- (length notibox-current-posframes) 1)))))
 
 (defun notibox--hide (frame)
   "Stop showing FRAME."
@@ -140,11 +142,12 @@ If FRAME is the root Emacs window, or some other symbol, hide all notiboxes."
   (interactive)
   (run-with-timer notibox--refresh-delay notibox--refresh-delay #'notibox--tail-echoarea))
 
-;; (notibox--hide 'anything)
+;; (notibox-delete 'anything)
 (defun notibox-test-alert ()
   "Show a sample notibox to prove we can."
   (interactive)
   (notibox-alert '(:title "five" :message "six")))
+;; (notibox-alert '(:title "一" :message "二" :timeout nil :depth 1))
 
 (provide 'notibox)
 ;;; notibox.el ends here
