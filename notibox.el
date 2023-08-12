@@ -135,11 +135,16 @@ If STACKDEPTH is non-nil and nonzero, return a position that far down."
   "Delete the notibox FRAME.
 
 If FRAME is the root Emacs window, or some other symbol, hide all notiboxes."
-  (if (and (framep frame) (not (frame-parent frame)))
-      (delete-frame frame)
-    (notibox--hide (car notibox-current-posframes)))
+  (let ((frame (notibox--resolve-frame frame)))
+    (if frame 
+	(notibox--hide frame)
+      (notibox--hide (car notibox-current-posframes))
+      )))
+  
   (pop notibox-current-posframes))
 ;; (frame-parent (selected-frame)) ;=> nil
+;; (frame-live-p (car notibox-current-posframes))
+;; (notibox-delete (car notibox-current-posframes))
 
 (defun notibox--tail-echoarea ()
   "Show `current-message' in the notibox.  If that does not exist, probably hide it."
@@ -163,7 +168,7 @@ If FRAME is the root Emacs window, or some other symbol, hide all notiboxes."
   "Show a sample notibox to prove we can."
   (interactive)
   (notibox-alert '(:title "five" :message "six")))
-;; (notibox-alert '(:title "一" :message "二" :timeout nil :depth 1))
+;; (notibox-alert '(:title "一" :message "二" :timeout 5 :depth 0))
 
 (provide 'notibox)
 ;;; notibox.el ends here
