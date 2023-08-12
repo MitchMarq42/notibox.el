@@ -88,11 +88,11 @@ If STACKDEPTH is non-nil and nonzero, return a position that far down."
 ;; (notibox--prepare-buffer "test" "this better work gadangit")
 
 (defvar notibox-current-posframes nil)
-(defun notibox--show (&optional timeout)
-  "Show the notibox currently prepared, with optional TIMEOUT."
+(cl-defun notibox--show (&key timeout &key depth)
+  "Show the notibox currently prepared, with optional TIMEOUT, at DEPTH."
   (add-to-list 'notibox-current-posframes
 	       (posframe-show (get-buffer-create "*notibox*")
-			      :position (notibox--get-position)
+			      :position (notibox--get-position depth)
 			      :left-fringe 0
 			      :right-fringe 0
 			      :max-width notibox-width
