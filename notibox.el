@@ -139,7 +139,7 @@ If FRAME is the root Emacs window, or some other symbol, hide all notiboxes."
     (if frame 
 	(notibox--hide frame)
       (notibox--hide (car notibox-current-posframes))
-      )))
+      ))
   
   (pop notibox-current-posframes))
 ;; (frame-parent (selected-frame)) ;=> nil
