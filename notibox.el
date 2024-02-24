@@ -1,8 +1,8 @@
 ;;; notibox.el --- PosFrame-based notification UI  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2023  mitch
+;; Copyright (C) 2023  mir
 
-;; Author: mitch <mitch@mitchmarq42.xyz>
+;; Author: mitch <mir@marq42.xyz>
 ;; Keywords:frames,convenience,help
 ;; Package-Requires: ((posframe) (alert))
 
@@ -31,7 +31,10 @@
 
 (require 'posframe)
 (require 'alert)
-(require 'shr) ;for `shr-string-pixel-width'
+(if (not (fboundp #'string-pixel-width))
+    (progn
+      (require 'shr) ;for `shr-string-pixel-width'
+      (defalias #'string-pixel-width #'shr-string-pixel-width)))
 
 (defvar notibox-width 40) ; characters
 (defvar notibox-height 4) ; characters
@@ -45,6 +48,7 @@
 	  (const :tag "Bottom Left" 'bottomleft)
 	  (const :tag "Top Right" 'topright)
 	  (const :tag "Bottom Right" 'bottomright)))
+;; (setq notibox-corner 'bottomright)
 (defvar notibox-padding 30)
 (defvar alert-fade-time 5); seconds, also provided by `alert' package
 (defvar notibox--refresh-delay 0.1) ; seconds. Probably don't change this one.
@@ -55,7 +59,7 @@ If STACKDEPTH is non-nil and nonzero, return a position that far down."
   (let* (
 	 (stackdepth (or stackdepth 0))
 	 (parent-width (frame-pixel-width))
-	 (child-width (* notibox-width (shr-string-pixel-width " ")))
+	 (child-width (* notibox-width (string-pixel-width " ")))
 	 (parent-height (frame-pixel-height))
 	 (child-height (* notibox-height (line-pixel-height)))
 	 (padded-height (+ child-height notibox-padding))
@@ -74,17 +78,18 @@ If STACKDEPTH is non-nil and nonzero, return a position that far down."
 	 )
     (cons x-justify y-coord)
     ))
-;; (notibox--get-position)
+;; (notibox--get-position 3)
 
 (defun notibox--prepare-buffer (title body)
   "Populate the `*notibox*' buffer with TITLE and BODY properly formatted."
   (with-current-buffer (get-buffer-create "*notibox*")
-    (erase-buffer)
-    (insert (format "%s\n%s\n%s" ;; (buttonize title #'view-echo-area-messages)
-		    title
-		    (propertize (make-string notibox-width ?─)
-				'face `((:foreground ,notibox-border-color)))
-		    body))))
+    (let ((inhibit-read-only t))
+      (erase-buffer)
+      (insert (format "%s\n%s\n%s" ;; (buttonize title #'view-echo-area-messages)
+		      title
+		      (propertize (make-string notibox-width ?─)
+				  'face `((:foreground ,notibox-border-color)))
+		      body)))))
 ;; (notibox--prepare-buffer "test" "this better work gadangit")
 
 (defvar notibox-current-posframes nil)
