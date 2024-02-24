@@ -48,7 +48,6 @@
 	  (const :tag "Bottom Left" 'bottomleft)
 	  (const :tag "Top Right" 'topright)
 	  (const :tag "Bottom Right" 'bottomright)))
-;; (setq notibox-corner 'bottomright)
 (defvar notibox-padding 30)
 (defvar alert-fade-time 5); seconds, also provided by `alert' package
 (defvar notibox--refresh-delay 0.1) ; seconds. Probably don't change this one.
