@@ -150,14 +150,41 @@ If FRAME is the root Emacs window, or some other symbol, hide all notiboxes."
 ;; (frame-live-p (car notibox-current-posframes))
 ;; (notibox-delete (car notibox-current-posframes))
 
+(defun notibox--parse-message (msg)
+  "Given string MSG, return a cons of source and contents.
+If the source is not obvious, use `current-buffer'."
+  (let* (source
+	 contents
+	 (splooted (split-string msg ": ")))
+    (pcase (length splooted)
+      (2 (progn
+	   (setq source (car splooted))
+	   (setq contents (cadr splooted))))
+      (1 (progn
+	   (setq source
+		 (format "%s"
+			 (current-buffer)))
+	   (setq contents
+		 (car splooted))))
+      )
+    (cons source contents)))
+;; (split-string "evil-forward-character: End of line" ": ")
+;; (split-string "this is a valid message" ": ")
+;; (notibox--parse-message "evil-forward-char: End of line")
+;; (notibox--parse-message "this is a badly formed message")
+
 (defun notibox--tail-echoarea ()
   "Show `current-message' in the notibox.  If that does not exist, probably hide it."
   (if (current-message)
-      (let ((notibox-border-color "#0faa0f"))
+      (let* ((notibox-border-color "#0faa0f")
+	     (parsed-msg
+	      (notibox--parse-message (current-message)))
+	     (title (car parsed-msg))
+	     (contents (cdr parsed-msg)))
 	(notibox-alert `(
-			 :title ,(format "%s" (current-buffer))
-				:message ,(current-message)
-				:depth 0)))
+			 :title ,title
+			 :message ,contents
+			 :depth 0)))
     (if notibox-current-posframes
 	(notibox-delete (car notibox-current-posframes))))
   )
