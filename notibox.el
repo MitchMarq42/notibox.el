@@ -140,7 +140,7 @@ If STACKDEPTH is non-nil and nonzero, return a position that far down."
 
 If FRAME is the root Emacs window, or some other symbol, hide all notiboxes."
   (let ((frame (notibox--resolve-frame frame)))
-    (if frame 
+    (if frame
 	(notibox--hide frame)
       (notibox--hide (car notibox-current-posframes))
       ))
@@ -160,7 +160,7 @@ If FRAME is the root Emacs window, or some other symbol, hide all notiboxes."
 				:depth 0)))
     (if notibox-current-posframes
 	(notibox-delete (car notibox-current-posframes))))
-)
+  )
 
 (defun notibox/setup-timer ()
   "Start running notibox."
